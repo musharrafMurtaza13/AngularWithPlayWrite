@@ -13,7 +13,10 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   use: {
-    headless: false, // Browser visible rahega
+    baseURL: process.env.BASE_URL || 'https://angular-with-play-write-pysz.vercel.app',
+    trace: 'on-first-retry',
+    headless: true,
+    
         // Har action ke baad 1 second ka pause
          launchOptions: {
       slowMo: 2000, 
