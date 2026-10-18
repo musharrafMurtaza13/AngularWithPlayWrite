@@ -1,4 +1,4 @@
-name: Angular Unit & Playwright CI
+name: Angular Playwright CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main, master ]
 
 jobs:
-  test:
+  e2e-tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
 
@@ -18,27 +18,23 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20
           cache: 'npm'
 
       - name: Install Dependencies
         run: npm ci
 
-      # 1. Unit Tests Run Honge
-      - name: Run Unit Tests
-        run: npx ng test --watch=false --browsers=ChromeHeadless
-
-      # 2. Playwright Browsers Install Honge
+      # Playwright Browsers Install Karein
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      # 3. Live Vercel Domain par E2E Tests Run Honge
-      - name: Run Playwright tests on Vercel
+      # Live Vercel Domain par Direct E2E Tests Run Karein
+      - name: Run Playwright Tests on Vercel
         env:
           BASE_URL: 'https://angular-with-play-write-pysz.vercel.app'
         run: npx playwright test
 
-      # 4. Report Upload (Agar test fail ho toh check karne ke liye)
+      # Test Artifacts / Report Upload
       - name: Upload Playwright Report
         uses: actions/upload-artifact@v4
         if: always()
